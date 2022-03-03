@@ -1,0 +1,57 @@
+.topbar {
+    top: 0;
+    width: 100%;
+    position: sticky;
+    background-color: rgb(224, 224, 224);
+    padding: 4 4 4 4;
+    margin-bottom: 10px;
+    z-index: 100;
+}
+
+.topbar-branding {
+    display: inline-block;
+    font-size: 1.2rem;
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #e21145 100%);
+    font-weight: bold;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.topbar-rightbox {
+    padding-right: 7px;
+    float: right;
+}
+
+.topbar-rightbox-button {
+    display: inline-block;
+    padding-top: 2px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.topbar-rightbox-button:hover {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+.mainmenu {
+    margin-left: 32vh;
+}
+
+.container {
+    margin-left: 5vh;
+    margin-right: 5vh;
+}
+
+.stickyfooter {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, .8);
+    text-align: center;
+}

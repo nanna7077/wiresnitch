@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="/static/styles/bulma.min.css">
+    <link rel="stylesheet" href="/static/styles/main.css">
+</head>
+
+<body>
+    <div class="topbar">
+        <div class="topbar-branding">WireSnitch</div>
+        <div class="topbar-rightbox">
+            <a href="/closeapp?appSecret={{appsecret}}" class="topbar-rightbox-button">X</a>
+        </div>
+    </div>
+    <div class="mainmenu">
+        <div class="buttons are-medium">
+            <a href='/graph?appSecret={{appsecret}}'><button class="button is-light">Graph</button></a>
+            <a href='/?appSecret={{appsecret}}'><button class="button is-light">Usage</button></a>
+            <a href='/alerts?appSecret={{appsecret}}'><button class="button is-light">Alerts</button></a>
+            <a href='/blacklist?appSecret={{appsecret}}'><button class="button is-light is-primary">Blacklist</button></a>
+        </div>
+    </div>
+    <br>
+    <div class="container">
+        <div class="title">Blacklisted Applications</div>
+        <div class="container">
+            {% if blacklistedApplications|length == 0 %}
+            <span style="font-size: 1.3rem; color: green;">No application blacklisted.</span> {% else %} {% for a in blacklistedApplications %}
+            <div class="notification is-danger">
+                <button class="delete" onclick="document.location='/blacklist/remove/?appSecret={{appsecret}}&application='+encodeURIComponent('{{a[0]}}')"></button> {{a[0]}}
+            </div>
+            {% endfor %} {% endif %}
+        </div>
+    </div>
+    <br>
+    <div class="container" style="margin: 20vh; text-align: center;">
+        <form method="POST" action="/blacklist/add?appSecret={{appsecret}}">
+            <input type="text" name="applicationpath" class="input is-primary" placeholder="Application Path" required><br><br>
+            <button class="button is-primary is-medium">Add Application to black list</button>
+        </form>
+    </div>
+    <br><br>
+</body>
+
+</html>

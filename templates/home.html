@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="/static/styles/bulma.min.css">
+    <link rel="stylesheet" href="/static/styles/main.css">
+</head>
+
+<body>
+    <div class="topbar">
+        <div class="topbar-branding">WireSnitch</div>
+        <div class="topbar-rightbox">
+            <a href="/closeapp?appSecret={{appsecret}}" class="topbar-rightbox-button">X</a>
+        </div>
+    </div>
+    <div class="mainmenu">
+        <div class="buttons are-medium">
+            <a href='/graph?appSecret={{appsecret}}'><button class="button is-light">Graph</button></a>
+            <a href='/?appSecret={{appsecret}}'><button class="button is-light is-primary">Usage</button></a>
+            <a href='/alerts?appSecret={{appsecret}}'><button class="button is-light">Alerts</button></a>
+            <a href='/blacklist?appSecret={{appsecret}}'><button class="button is-light">Blacklist</button></a>
+        </div>
+    </div>
+    <div class="container">
+        <br>
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">Total Sent</p>
+                    <p class="title" id="sent_total"></p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">Total Received</p>
+                    <p class="title" id="received_total"></p>
+                </div>
+            </div>
+        </nav>
+        <br>
+    </div>
+    <br>
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Application Path </th>
+                    <th>Sent</th>
+                    <th>Received</th>
+                </tr>
+            </thead>
+            <tbody id="per_application_usage_table">
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div class="stickyfooter">
+        <input type="datetime" id="timeframeStart">
+        <input type="datetime" id="timeframeEnd">
+    </div>
+
+    <script>
+        let timeframeStart = 0;
+        let timeframeEnd = 253402261199;
+
+        var tfs = new Date(timeframeStart * 1000);
+        tfs.setMinutes(tfs.getMinutes() - tfs.getTimezoneOffset());
+        document.getElementById('timeframeStart').value = tfs.toISOString().slice(0, 16);
+
+        var tfe = new Date(timeframeEnd * 1000);
+        tfe.setMinutes(tfe.getMinutes() - tfe.getTimezoneOffset());
+        document.getElementById('timeframeStart').value = tfe.toISOString().slice(0, 16);
+
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+
+        function fetchall() {
+            fetch('/api/getTotalSendReceive?appSecret={{appsecret}}').then(response => response.json()).then(data => {
+                document.getElementById('sent_total').innerText = formatBytes(data['result'][0][0]);
+                document.getElementById('received_total').innerText = formatBytes(data['result'][0][1]);
+            })
+            fetch('/api/getUsageByAllApplications?appSecret={{appsecret}}&timeframeStart=' + timeframeStart + '&timeframeEnd=' + timeframeEnd).then(response => response.json()).then(data => {
+                Array.prototype.forEach.call(data['result'], function(d) {
+                    console.log(d)
+                    document.getElementById('per_application_usage_table').innerHTML += "<tr><td>" + d[0] + "</td><td>" + formatBytes(d[2]) + "</td><td>" + formatBytes(d[3]) + "</td>";
+                })
+            })
+        }
+
+        fetchall()
+    </script>
+</body>
+
+</html>

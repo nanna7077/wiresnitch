@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="/static/styles/bulma.min.css">
+    <link rel="stylesheet" href="/static/styles/main.css">
+</head>
+
+<body>
+    <div class="topbar">
+        <div class="topbar-branding">WireSnitch</div>
+        <div class="topbar-rightbox">
+            <a href="/closeapp" class="topbar-rightbox-button">X</a>
+        </div>
+    </div>
+    <div class="mainmenu">
+        <div class="buttons are-medium">
+            <a href='/graph?appSecret={{appsecret}}'><button class="button is-light">Graph</button></a>
+            <a href='/?appSecret={{appsecret}}'><button class="button is-light">Usage</button></a>
+            <a href='/alerts?appSecret={{appsecret}}'><button class="button is-light is-primary">Alerts</button></a>
+            <a href='/blacklist?appSecret={{appsecret}}'><button class="button is-light">Blacklist</button></a>
+        </div>
+    </div>
+    <br>
+    <div class="container">
+        Work in progress...
+    </div>
+    <br><br>
+</body>
+
+</html>
